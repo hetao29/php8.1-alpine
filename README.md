@@ -1,4 +1,4 @@
-# php7.4-alpine
+# php8.1-alpine
 
 ## usage
 
