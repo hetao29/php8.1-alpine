@@ -2,39 +2,25 @@
 
 ## usage
 
-```dockerfile
-FROM hetao29/php7.4-alpine
-WORKDIR /data/www/
-
-COPY index.php ./
-
+```bash
+make start
 ```
 
 ## nginx
-1. nginx
 
-## extension
-1. imap mbstring ldap redis mcrypt ldap mysql bcmath curl gd iconv openssl imagick zip ftp pcntl sockets exif
-2. grpc swoole
-
-## dir
-### site root
-```bash
-/data/www/www
+```conf
+	location ~ \.php$ {
+		fastcgi_param REMOTE_ADDR $http_x_real_ip;
+		fastcgi_pass   127.0.0.1:10000; #php8.1(docker)
+		fastcgi_index  index.php;
+		fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		include        fastcgi_params;
+	}
 ```
 
-### php config
-```bash
-/etc/php7/php.ini
-```
+## conf
 
-### php-fpm config
-```bash
-/etc/php7/php-fpm.conf 
-/etc/php7/php-fpm.d/www.conf
-```
-### nginx config
-```bash
-/etc/nginx/nginx.conf
-/etc/nginx/sites-enabled/www
+```yaml
+    volumes:
+        - www:/data/mgr/
 ```

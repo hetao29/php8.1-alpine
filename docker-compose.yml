@@ -8,9 +8,6 @@ services:
         - network
     volumes:
         - www:/data/mgr/
-#    configs:
-#       - source: php_ini
-#         target: /etc/php7/php.ini
     deploy:
       replicas: 2 
       update_config:
@@ -29,13 +26,6 @@ networks:
     network:
         name: com_mxiqi_network
         external: true
-#configs:
-#    php_ini:
-#      file: ./docker/fpm/php.ini
 volumes:
   www:
     driver: local
-    driver_opts:
-      type: "nfs4"
-      o: "addr=10.30.108.248,rw"
-      device: ":/data/mgr/"
