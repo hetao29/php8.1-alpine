@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  core:
+    image: hetao29/php8.1-alpine:latest
+    ports:
+        - "10000:9000"
+    networks:
+        - network
+    volumes:
+        - www:/data/mgr/
+#    configs:
+#       - source: php_ini
+#         target: /etc/php7/php.ini
+    deploy:
+      replicas: 2 
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism: 2
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+networks:
+    network:
+        name: com_mxiqi_network
+        external: true
+#configs:
+#    php_ini:
+#      file: ./docker/fpm/php.ini
+volumes:
+  www:
+    driver: local
+    driver_opts:
+      type: "nfs4"
+      o: "addr=10.30.108.248,rw"
+      device: ":/data/mgr/"
